@@ -1,0 +1,24 @@
+{
+  "name": "listing-hippo",
+  "version": "1.0.0",
+  "description": "This is technical assessment from ListingHippo",
+  "main": "build/bundle.js",
+  "Author": "Charles Cho",
+  "scripts": {
+    "start": "nodemon server/server.js",
+    "build": "webpack --progress --hide-modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.11",
+    "path-parser": "^4.2.0"
+  }
+}
