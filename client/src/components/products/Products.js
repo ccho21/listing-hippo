@@ -1,10 +1,10 @@
-// TableRow.js
+// Products.js
 
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-class TableRow extends Component {
+class Products extends Component {
 
     constructor(props) {
         super(props);
@@ -72,4 +72,4 @@ class TableRow extends Component {
     }
 }
 
-export default TableRow;
+export default Products;

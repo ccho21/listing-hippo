@@ -9,9 +9,9 @@ export default class Create extends Component {
 
         // Enter Listed Price, Selling Price, and Reserve
         this.state = {
-            product_listed_price: '',
-            product_selling_price: '',
-            product_reserve: '',
+            product_listed_price: 0,
+            product_selling_price: 0,
+            product_reserve: 0,
             product_status: 'Item Available',
             product_steps_completed: 3,
 

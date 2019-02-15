@@ -18,6 +18,7 @@ let Product = new Schema({
     product_status: {
         type: String,
         enum: ['Pending List', 'Item Available', 'Item Sold', 'Pending Payment', 'Seller Payout Completed'],
+        categories: ['Juices', 'Chats', 'Meals'],
         default: 'Pending List'
     },
     product_condition: {

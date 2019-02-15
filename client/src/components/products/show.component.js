@@ -26,7 +26,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
-              <h2>DETAIlS DETAILS</h2>
+              <h2>PRODUCT DETAILS</h2>
                 <div>
                     <span>Title: </span>
                     { this.state.product_title }

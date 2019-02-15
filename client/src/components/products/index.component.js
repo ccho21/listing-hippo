@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import axios from 'axios';
-import TableRow from './TableRow';
+import Products from './Products';
 
 export default class Index extends Component {
 
@@ -12,10 +12,11 @@ export default class Index extends Component {
             products: [],
             filterProducts: [],
             orderBy: 'product_listed_price',
-            order: 'false',
+            order: false,
             searchBy: '',
         };
-        this.orderBy = this.orderBy.bind(this);
+        this.orderByNumber = this.orderByNumber.bind(this);
+        this.orderByString = this.orderByString.bind(this);
         this.filterData = this.filterData.bind(this);
     }
 
@@ -29,7 +30,8 @@ export default class Index extends Component {
             })
     }
 
-    orderBy(e) {
+    orderByNumber(e) {
+        e.preventDefault();
         // Get data, keyword, field to filter
         let filterProducts = this.state.filterProducts;
         console.log('filtered', filterProducts);
@@ -41,11 +43,32 @@ export default class Index extends Component {
 
         // Sort data based on Field
         if (order) {
-            filterProducts = filterProducts.sort((a, b) => parseFloat(a[orderBy]) - parseFloat(b[orderBy]));
+            filterProducts = filterProducts.sort((cur, next) =>
+                parseFloat(cur[orderBy]) - parseFloat(next[orderBy])
+            );
         } else {
             filterProducts = filterProducts.sort((a, b) => parseFloat(b[orderBy]) - parseFloat(a[orderBy]));
         }
+        // Store filtered data, order, keyword to State.
+        this.setState({products: filterProducts, order: !order, orderBy: orderBy});
+    }
 
+    orderByString(e) {
+        e.preventDefault();
+        // Get data, keyword, field to filter
+        let filterProducts = this.state.filterProducts;
+        let order = this.state.order;
+        let orderBy = e.target.closest('.btn').dataset.value;
+
+        console.log('order', order);
+        console.log('orderBy', orderBy);
+
+        // Sort data based on Field
+        if (order) {
+            filterProducts = filterProducts.sort((a, b) => b[orderBy].toLowerCase().localeCompare(a[orderBy].toLowerCase()));
+        } else {
+            filterProducts = filterProducts.sort((a, b) => a[orderBy].toLowerCase().localeCompare(b[orderBy].toLowerCase()));
+        }
         // Store filtered data, order, keyword to State.
         this.setState({products: filterProducts, order: !order, orderBy: orderBy});
     }
@@ -57,30 +80,22 @@ export default class Index extends Component {
         const searchBy = target.value;
         const search = target.name;
 
-        console.log('target ', target);
-        console.log('search, ', search);
-        console.log('searchBy', searchBy);
-
         // Filter selected field by the keyword
-        let filteredProducts = this.state.searchBy ? this.state.filterProducts : this.state.products;
-        console.log('THIS IS SEARCHBY STATE BEFORE STORING', this.state.searchBy);
-        console.log('Original before filtering', filteredProducts);
-
+        let filteredProducts = this.state.products;
         filteredProducts = filteredProducts.filter((cur) => cur[search].includes(searchBy));
-        console.log('outcome ', filteredProducts);
 
-        // Store outcome in state.
+        // Store filtered data in state object.
         this.setState({filterProducts: filteredProducts, searchBy: searchBy});
     }
 
     // tabRow() {
-    //     return this.state.filterProducts.map((item, i) => <TableRow item={item} key={i}/>);
+    //     return this.state.filterProducts.map((item, i) => <Products item={item} key={i}/>);
     // }
 
     render() {
-        const filterProducts = this.state.products;
+        const filterProducts = this.state.filterProducts;
         const tabRow = (filterProducts) => {
-            return filterProducts.map((item, i) => <TableRow item={item} key={i}/>);
+            return filterProducts.map((item, i) => <Products item={item} key={i}/>);
         };
         return (
             <div>
@@ -88,10 +103,12 @@ export default class Index extends Component {
                     <thead>
                     <tr>
                         <th>Status
-                            <button className="btn btn-sm" onClick={this.orderBy} data-value="product_status">
+                            <button className="btn btn-sm btn-info" onClick={this.orderByString} data-value="product_status">
                                 <span>sort</span>
                             </button></th>
                         <th>Title
+                            <button className="btn btn-sm btn-info" onClick={this.orderByString}
+                                    data-value="product_title"><span>sort</span></button>
                             <div className="input-group input-group-sm mb-3">
                                 <input className="form-control mr-sm-2"
                                        name="product_title"
@@ -101,9 +118,11 @@ export default class Index extends Component {
                                        aria-label="Search"/>
                             </div>
                         </th>
-                        <th>Price <button className="btn btn-sm" onClick={this.orderBy}
+                        <th>Price <button className="btn btn-sm btn-info" onClick={this.orderByNumber}
                                           data-value="product_listed_price"><span>sort</span></button></th>
                         <th>Category
+                            <button className="btn btn-sm btn-info" onClick={this.orderByString}
+                                    data-value="product_category"><span>sort</span></button>
                             <input className="form-control mr-sm-2"
                                    name="product_category"
                                    type="search"
@@ -113,6 +132,8 @@ export default class Index extends Component {
 
                         </th>
                         <th colSpan="2">SKU
+                            <button className="btn btn-sm btn-info" onClick={this.orderByNumber}
+                                    data-value="product_SKU"><span>sort</span></button>
                             <input className="form-control mr-sm-2"
                                    name="product_SKU"
                                    type="search"
