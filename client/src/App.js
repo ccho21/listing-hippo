@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import Create from './components/products/create/create.component';
-import Edit from './components/products/edit.component';
+import Edit from './components/products/updates/edit.component';
 import Index from './components/products/index.component';
 import Show from './components/products/show.component';
 

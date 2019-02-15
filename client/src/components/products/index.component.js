@@ -2,8 +2,6 @@
 
 import React, {Component} from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
-import {fetchProducts} from '../../actions';
 import TableRow from './TableRow';
 
 export default class Index extends Component {
@@ -30,8 +28,6 @@ export default class Index extends Component {
                 console.log(error);
             })
     }
-
-
 
     orderBy(e) {
         // Get data, keyword, field to filter
@@ -65,7 +61,6 @@ export default class Index extends Component {
         console.log('search, ', search);
         console.log('searchBy', searchBy);
 
-
         // Filter selected field by the keyword
         let filteredProducts = this.state.searchBy ? this.state.filterProducts : this.state.products;
         console.log('THIS IS SEARCHBY STATE BEFORE STORING', this.state.searchBy);
@@ -77,10 +72,16 @@ export default class Index extends Component {
         // Store outcome in state.
         this.setState({filterProducts: filteredProducts, searchBy: searchBy});
     }
-    tabRow() {
-        return this.state.filterProducts.map((item, i) => <TableRow item={item} key={i}/>);
-    }
+
+    // tabRow() {
+    //     return this.state.filterProducts.map((item, i) => <TableRow item={item} key={i}/>);
+    // }
+
     render() {
+        const filterProducts = this.state.products;
+        const tabRow = (filterProducts) => {
+            return filterProducts.map((item, i) => <TableRow item={item} key={i}/>);
+        };
         return (
             <div>
                 <table className="table table-striped" style={{marginTop: 20}}>
@@ -119,12 +120,10 @@ export default class Index extends Component {
                                    onChange={this.filterData}
                                    aria-label="Search"/>
                         </th>
-
-
                     </tr>
                     </thead>
                     <tbody>
-                    {this.tabRow()}
+                    {tabRow(filterProducts)}
                     </tbody>
                 </table>
             </div>

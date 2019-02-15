@@ -8,6 +8,7 @@ class TableRow extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.delete = this.delete.bind(this);
         this.show = this.show.bind(this);
     }
@@ -34,13 +35,19 @@ class TableRow extends Component {
                 console.log(error);
             })
     }
+    linkPage() {
+        const status = this.props.item.product_status;
+        let link = status === 'Item Available' ? 'show' : 'edit';
+        return <Link to={`/${link}/` + this.props.item._id} item={this.props.item} className="nav-link">{this.props.item.product_status}</Link>;
+    }
+
 
     render() {
         return (
             <tr>
                 <td>
-                    {/*<a href="" onClick={this.show} className="btn btn-danger">{this.props.item.product_title}</a>*/}
-                    <Link to={'/show/' + this.props.item._id} item={this.props.item} className="nav-link">{this.props.item.product_status}</Link>
+                    {/*<Link to={'/show/' + this.props.item._id} item={this.props.item} className="nav-link">{this.props.item.product_status}</Link>*/}
+                    {this.linkPage()}
                 </td>
                 <td>
                     <Link to={'/show/' + this.props.item._id} className="nav-link">{this.props.item.product_title}</Link>

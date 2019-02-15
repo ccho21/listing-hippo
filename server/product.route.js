@@ -9,16 +9,15 @@ let Product = require('./product.model');
 
 // Defined store route
 ProductRoutes.route('/create').post((req, res) => {
-    console.log(req.body);
     let product = new Product(req.body);
-        product.save()
-            .then(product => {
-                 res.status(200).json({'product': 'product in added successfully'});
-            })
-            .catch(err => {
-                res.status(400).send(err);
-                //res.status(400).send("unable to save to database");
-            });
+    product.save()
+        .then(product => {
+            res.status(200).json(product);
+        })
+        .catch(err => {
+            res.status(400).send(err);
+            //res.status(400).send("unable to save to database");
+        });
 });
 
 // Defined get data(index or listing) route
@@ -55,15 +54,30 @@ ProductRoutes.route('/update/:id').post((req, res) => {
         if (!product)
             res.status(404).send("data is not found");
         else {
-            product.person_name = req.body.person_name;
-            product.business_name = req.body.business_name;
-            product.business_gst_number = req.body.business_gst_number;
+            product.product_client_code = req.body.product_client_code;
+            product.product_title = req.body.product_title;
+            product.product_brand = req.body.product_brand;
+            product.product_model_number = req.body.product_model_number;
+            product.product_dimensions = req.body.product_dimensions;
+            product.product_weight = req.body.product_weight;
+            product.product_quantity = req.body.product_quantity;
+            product.product_category = req.body.product_category;
+            product.product_condition = req.body.product_condition;
+            product.product_SKU = req.body.product_SKU;
+            product.product_images = req.body.product_images;
+            product.product_description = req.body.product_description;
+            product.product_location = req.body.product_location;
+            product.product_reserve = req.body.product_reserve;
+            product.product_selling_price = req.body.product_selling_price;
+            product.product_listed_price = req.body.product_listed_price;
+            product.product_steps_completed = req.body.product_steps_completed;
+            product.product_status = req.body.product_status;
 
-            product.save().then(business => {
-                res.json('Update complete');
+            product.save().then(product => {
+                res.json(product);
             })
                 .catch(err => {
-                    res.status(400).send("unable to update the database");
+                    res.status(400).send(err);
                 });
         }
     });
@@ -73,10 +87,9 @@ ProductRoutes.route('/update/:id').post((req, res) => {
 ProductRoutes.route('/delete/:id').get((req, res) => {
     Product.findById(req.params.id, (err, product) => {
         product.remove(err => {
-            if(err){
+            if (err) {
                 res.status(500).send(err);
-            }
-            else{
+            } else {
                 res.status(200).send('removed');
             }
         })

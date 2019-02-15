@@ -10,12 +10,16 @@ const alphaNumeric = (v) => {
 
 // Define collection and schema for product
 let Product = new Schema({
+
+    product_steps_completed : {
+      type: Number,
+      enum: [0, 1, 2]
+    },
     product_status: {
         type: String,
         enum: ['Pending List', 'Item Available', 'Item Sold', 'Pending Payment', 'Seller Payout Completed'],
         default: 'Pending List'
     },
-
     product_condition: {
         type: String,
         enum: ['New', 'Used'],
